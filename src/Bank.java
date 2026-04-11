@@ -148,5 +148,24 @@ public class Bank {
         return new ArrayList<>(accounts.values());
     }
 
+    public Account getAccount(String accountNumber) {
+        return accounts.get(accountNumber);
+    }
+
+    public void deleteAccount(String accountNumber) throws Exception {
+        if (!accounts.containsKey(accountNumber)) {
+            throw new Exception("Account not found: " + accountNumber);
+        }
+        accounts.remove(accountNumber);
+    }
+
+    // Used by BankStorage to re-populate accounts without generating new numbers
+    void addAccountDirectly(Account acc) {
+        accounts.put(acc.getAccountNumber(), acc);
+    }
+
+    public int  getAccountCounter()          { return accountCounter; }
+    public void setAccountCounter(int counter) { this.accountCounter = counter; }
+
     public String getBankName() { return bankName; }
 }

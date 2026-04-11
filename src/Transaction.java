@@ -25,12 +25,22 @@ public class Transaction {
         this.timestamp   = LocalDateTime.now();
     }
 
+    // Constructor used when loading from storage (timestamp supplied explicitly)
+    public Transaction(Type type, double amount, double balanceAfter, String note, LocalDateTime timestamp) {
+        this.type        = type;
+        this.amount      = amount;
+        this.balanceAfter = balanceAfter;
+        this.note        = note;
+        this.timestamp   = timestamp;
+    }
+
     // --- Getters (no setters — transactions are immutable) ---
 
-    public Type getType()          { return type; }
-    public double getAmount()      { return amount; }
-    public double getBalanceAfter(){ return balanceAfter; }
-    public String getNote()        { return note; }
+    public Type getType()              { return type; }
+    public double getAmount()          { return amount; }
+    public double getBalanceAfter()    { return balanceAfter; }
+    public String getNote()            { return note; }
+    public LocalDateTime getTimestamp(){ return timestamp; }
 
     // Returns a formatted one-line summary for printing
     public String getSummary() {

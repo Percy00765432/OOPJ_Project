@@ -88,10 +88,14 @@ public abstract class Account {
     // Getters — read-only access to private fields
     // ---------------------------------------------------------------
 
-    public String getAccountNumber() { return accountNumber; }
-    public String getHolderName()    { return holderName; }
-    public double getBalance()       { return balance; }
+    public String getAccountNumber()       { return accountNumber; }
+    public String getHolderName()          { return holderName; }
+    public double getBalance()             { return balance; }
+    public List<Transaction> getHistory()  { return history; }
 
     // Used internally by Bank for transfers (keeps balance update in one place)
     protected void setBalance(double balance) { this.balance = balance; }
+
+    // Used by BankStorage when loading saved data
+    void addHistoryEntry(Transaction t) { history.add(t); }
 }
