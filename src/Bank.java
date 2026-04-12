@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 // Manages all accounts in the bank
 // Demonstrates: Composition (Bank has-a HashMap of Accounts)
@@ -10,12 +11,11 @@ public class Bank {
     private final String bankName;
     // Maps account number (key) -> Account object (value)
     private final HashMap<String, Account> accounts;
-    private int accountCounter;  // Used to generate unique account numbers
+    private final Random random = new Random();
 
     public Bank(String bankName) {
-        this.bankName       = bankName;
-        this.accounts       = new HashMap<>();
-        this.accountCounter = 1000;  // Account numbers start from ACC1001
+        this.bankName = bankName;
+        this.accounts = new HashMap<>();
     }
 
     // ---------------------------------------------------------------
@@ -130,9 +130,13 @@ public class Bank {
     // Helpers
     // ---------------------------------------------------------------
 
+    // Generates a unique random 6-digit account number
     private String generateAccountNumber() {
-        accountCounter++;
-        return "ACC" + accountCounter;
+        String accNo;
+        do {
+            accNo = String.valueOf(100000 + random.nextInt(900000));
+        } while (accounts.containsKey(accNo));
+        return accNo;
     }
 
     // Looks up account; throws a clear error if not found
@@ -163,9 +167,6 @@ public class Bank {
     void addAccountDirectly(Account acc) {
         accounts.put(acc.getAccountNumber(), acc);
     }
-
-    public int  getAccountCounter()          { return accountCounter; }
-    public void setAccountCounter(int counter) { this.accountCounter = counter; }
 
     public String getBankName() { return bankName; }
 }

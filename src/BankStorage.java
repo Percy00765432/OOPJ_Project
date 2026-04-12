@@ -3,14 +3,12 @@ import java.time.LocalDateTime;
 
 // Saves and loads all bank data to/from a plain-text file.
 // Format:
-//   COUNTER=<n>
 //   ACCOUNT|<accNo>|<Savings|Current>|<holderName>|<balance>|<interestRate|overdraftLimit>
 //   TX|<accNo>|<TYPE>|<amount>|<balanceAfter>|<timestamp>|<note>
 public class BankStorage {
 
     public static void save(Bank bank, String filePath) {
         try (PrintWriter out = new PrintWriter(new FileWriter(filePath))) {
-            out.println("COUNTER=" + bank.getAccountCounter());
             for (Account acc : bank.getAllAccounts()) {
                 String extra = (acc instanceof SavingsAccount)
                     ? String.format("%.4f", ((SavingsAccount) acc).getInterestRate())
@@ -44,10 +42,7 @@ public class BankStorage {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
-                if (line.startsWith("COUNTER=")) {
-                    bank.setAccountCounter(Integer.parseInt(line.substring(8)));
-
-                } else if (line.startsWith("ACCOUNT|")) {
+                if (line.startsWith("ACCOUNT|")) {
                     // ACCOUNT|accNo|type|holderName|balance|rateOrLimit
                     String[] p = line.split("\\|", 6);
                     String accNo   = p[1];
